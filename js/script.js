@@ -91,6 +91,39 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 					hardPity = document.getElementById('hardPity').checked ? true : false;
 				}
 				break;
+			case "jue":
+				for (let i = 0; i < simTimes; i++) {
+					let pullsTimes = currentPulls + 1;
+					let totalPull = 0;
+					let hardPity = document.getElementById('hardPity').checked ? true : false;
+					for (let fiveStars = 0; fiveStars < targetFiveStars;) {
+						totalPull = totalPull + 1;
+						let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+						for (; !calculateRandomOutcome(random);) {
+							pullsTimes = pullsTimes + 1;
+							totalPull = totalPull + 1;
+							random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+						}
+						if (hardPity) {
+							fiveStars = fiveStars + 1;
+							hardPity = false;
+						} else {
+							if (calculateRandomOutcome(500)) {
+								fiveStars = fiveStars + 1;
+							} else {
+								hardPity = true;
+							}
+						}
+
+						pullsTimes = 1;
+					}
+
+					cluster.add(totalPull);
+					totalPull = 0;
+					pullsTimes = currentPulls + 1;
+					hardPity = document.getElementById('hardPity').checked ? true : false;
+				}
+				break;
 			default:
 				break;
 		}
@@ -133,6 +166,7 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 				}
 				break;
 			case "tie":
+			case "jue":
 				for (let i = 0; i < simTimes; i++) {
 					let pullsTimes = currentPulls + 1;
 					let totalPull = 0;
