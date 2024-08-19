@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>抽卡模擬器</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="container">
+        <h1>抽卡模擬器</h1>
+
+        <!-- 選擇池類型 -->
+        <div class="section">
+            <p>選擇池類型:</p>
+            <label><input type="radio" name="poolType" value="yuan"> 原</label>
+            <label><input type="radio" name="poolType" value="tie"> 鐵/絕</label>
+<!--             <label><input type="radio" name="poolType" value="jue"> 絕</label> -->
+<!--             <label><input type="radio" name="poolType" value="ming"> 鳴</label> -->
+        </div>
+
+        <!-- 選擇抽取類型 -->
+        <div class="section">
+            <p>選擇抽取類型:</p>
+            <label><input type="radio" name="drawType" value="character"> 角色</label>
+            <label><input type="radio" name="drawType" value="weapon"> 武器</label>
+        </div>
+
+        <!-- 輸入已墊抽數 -->
+        <div class="section">
+            <label for="currentPulls">已墊抽數:</label>
+            <input type="number" id="currentPulls" name="currentPulls" min="0">
+        </div>
+
+        <!-- 輸入目標五星數 -->
+        <div class="section">
+            <label for="targetFiveStars">目標五星數:</label>
+            <input type="number" id="targetFiveStars" name="targetFiveStars" min="1">
+        </div>
+        
+                <!-- 輸入目標五星數 -->
+        <div class="section">
+            <label for="simTimes">模擬次數:</label>
+            <input type="number" id="simTimes" name="simTimes" min="1", max="1000000000">
+        </div>
+
+        <!-- 是否四星滿命 -->
+        <div class="section">
+            <label><input type="checkbox" id="fullConstellation" name="fullConstellation"> 四星滿命(9折抽)</label>
+            <label><input type="checkbox" id="hardPity" name="hardPity"> 大保底</label>
+        </div>
+
+        <!-- 模擬按鈕 -->
+        <div class="section">
+            <button id="simulateButton">模擬</button>
+        </div>
+
+        <!-- 模擬結果 -->
+        <div class="section">
+            <label for="result">模擬結果:</label>
+            <textarea id="result" name="result" rows="5" cols="30" readonly></textarea>
+        </div>
+    </div>
+    
+        <script src="js/script.js"></script>
+</body>
+</html>
