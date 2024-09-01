@@ -12,7 +12,7 @@
         <!-- 選擇池類型 -->
         <div class="section">
             <p>選擇池類型:</p>
-            <label><input type="radio" name="poolType" value="yuan"> 原</label>
+            <label><input type="radio" name="poolType" value="yuan" checked> 原</label>
             <label><input type="radio" name="poolType" value="tie"> 鐵</label>
             <label><input type="radio" name="poolType" value="jue"> 絕</label>
 <!--             <label><input type="radio" name="poolType" value="ming"> 鳴</label> -->
@@ -21,32 +21,33 @@
         <!-- 選擇抽取類型 -->
         <div class="section">
             <p>選擇抽取類型:</p>
-            <label><input type="radio" name="drawType" value="character"> 角色</label>
+            <label><input type="radio" name="drawType" value="character" checked> 角色</label>
             <label><input type="radio" name="drawType" value="weapon"> 武器</label>
         </div>
 
         <!-- 輸入已墊抽數 -->
         <div class="section">
             <label for="currentPulls">已墊抽數:</label>
-            <input type="number" id="currentPulls" name="currentPulls" min="0">
+            <input type="number" id="currentPulls" name="currentPulls" min="0" value = 0>
         </div>
 
         <!-- 輸入目標五星數 -->
         <div class="section">
             <label for="targetFiveStars">目標五星數:</label>
-            <input type="number" id="targetFiveStars" name="targetFiveStars" min="1">
+            <input type="number" id="targetFiveStars" name="targetFiveStars" min="1" value = 1>
         </div>
         
-                <!-- 輸入目標五星數 -->
+
         <div class="section">
             <label for="simTimes">模擬次數:</label>
-            <input type="number" id="simTimes" name="simTimes" min="1", max="1000000000">
+            <input type="number" id="simTimes" name="simTimes" min="1", max="1000000000" value = 1000000>
         </div>
 
-        <!-- 是否四星滿命 -->
+
         <div class="section">
-            <label><input type="checkbox" id="fullConstellation" name="fullConstellation"> 四星滿命(9折抽)</label>
-            <label><input type="checkbox" id="hardPity" name="hardPity"> 大保底</label>
+            <label style="width:40%"><input type="checkbox" id="hardPity" name="hardPity" > 大保底</label>
+            <label for="hardCount" style="width:40%">連續大保(原):<br>(不含本次大保)</label>
+            <input type="number" id="hardCount" name="hardCount" min="0" value = 0 style="width:20%">
         </div>
 
         <!-- 模擬按鈕 -->

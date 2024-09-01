@@ -13,9 +13,11 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 	const currentPulls = parseInt(document.getElementById('currentPulls').value) || 0;
 	const targetFiveStars = parseInt(document.getElementById('targetFiveStars').value) || 1;
 	const simTimes = parseInt(document.getElementById('simTimes').value) || 1000000;
-	const fullConstellation = document.getElementById('fullConstellation').checked ? true : false;
 
-
+	//小保歪次數
+    let hartIn = 0 ;
+	let hartOut = 0 ;	
+	
 	let cluster = new StatisticsCluster();
 	if (drawType == "character") {
 
@@ -25,6 +27,7 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 					let pullsTimes = currentPulls + 1;
 					let totalPull = 0;
 					let hardPity = document.getElementById('hardPity').checked ? true : false;
+					let hardCount = parseInt(document.getElementById('hardCount').value) || 0;
 					for (let fiveStars = 0; fiveStars < targetFiveStars;) {
 						totalPull = totalPull + 1;
 						let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
@@ -36,14 +39,32 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 						if (hardPity) {
 							fiveStars = fiveStars + 1;
 							hardPity = false;
+							hardCount = hardCount + 1 ;
 						} else {
-							if (calculateRandomOutcome(500)) {
-								fiveStars = fiveStars + 1;
-							} else {
-								if (calculateRandomOutcome(100))
+							if (hardCount < 2) {
+								if (calculateRandomOutcome(500)) {
 									fiveStars = fiveStars + 1;
-								else
+									hardCount = 0;
+									hartIn = hartIn + 1 ;
+								} else {
 									hardPity = true;
+									hartOut = hartOut + 1 ;
+								}
+							}
+							else if (hardCount == 2) {
+								if (calculateRandomOutcome(750)) {
+									fiveStars = fiveStars + 1;
+									hardCount = 0;
+									hartIn = hartIn + 1 ;
+								} else {
+									hardPity = true;
+									hartOut = hartOut + 1 ;
+								}
+							}
+							else {
+								fiveStars = fiveStars + 1;
+								hardCount = 0;
+								hartIn = hartIn + 1 ;
 							}
 						}
 						pullsTimes = 1;
@@ -214,12 +235,22 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 	// 計算運行時間（以毫秒為單位）
 	const elapsedTime = endTime - startTime;
 
+	// 計算百分比
+	let total = hartIn + hartOut;
+	let percentage = 0;
+
+	// 確保 total 不為 0 以避免除以 0 的錯誤
+	if (total > 0) {
+	    percentage = (hartIn / total) * 100;
+	}
+	
 	// 構建結果字符串
 	const resultText = `
 期望值: ${average}
 最小值: ${min}
 最大值: ${max}
 中位數: ${median}
+小保命中(原&角): ${percentage.toFixed(2)}%
 運行時間: ${elapsedTime} 毫秒
     `;
 
