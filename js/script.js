@@ -250,12 +250,72 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 最小值: ${min}
 最大值: ${max}
 中位數: ${median}
-小保命中(原&角): ${percentage.toFixed(2)}%
+小保命中(只計原角): ${percentage.toFixed(2)}%
 運行時間: ${elapsedTime} 毫秒
     `;
 
 	// 顯示結果到textarea
 	document.getElementById('result').value = resultText.trim();
+	
+	
+	// 收集數據用於圖表
+	const pullData = cluster.getData();
+	const pullCounts = {};
+
+	// 統計每個抽取次數出現的頻率
+	pullData.forEach(pull => {
+	    if (pullCounts[pull]) {
+	        pullCounts[pull]++;
+	    } else {
+	        pullCounts[pull] = 1;
+	    }
+	});
+
+	// 將統計結果轉換為圖表格式
+	const labels = Object.keys(pullCounts);
+	const data = Object.values(pullCounts);
+	
+	// 創建圖表
+	const ctx = document.getElementById('resultChart').getContext('2d');
+
+	// 檢查是否已經有圖表存在，如果存在且是 Chart 實例則銷毀它
+	if (window.resultChart instanceof Chart) {
+	    window.resultChart.destroy();
+	}
+
+	// 新建圖表
+	window.resultChart = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+	        labels: labels,
+	        datasets: [{
+	            label: '抽取次數出現的次數',
+	            data: data,
+	            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+	            borderColor: 'rgba(54, 162, 235, 1)',
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            x: {
+	                title: {
+	                    display: true,
+	                    text: '抽取次數'
+	                }
+	            },
+	            y: {
+	                title: {
+	                    display: true,
+	                    text: '出現次數'
+	                },
+	                beginAtZero: true
+	            }
+	        }
+	    }
+	});
+	
+	
 });
 
 class StatisticsCluster {
@@ -294,6 +354,10 @@ class StatisticsCluster {
 	// 獲取最大值
 	getMax() {
 		return this.max;
+	}
+	
+	getData() {
+	    return this.data;
 	}
 
 	getMedian() {

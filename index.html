@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>抽卡模擬器</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -46,8 +47,8 @@
 
         <div class="section">
             <label style="width:40%"><input type="checkbox" id="hardPity" name="hardPity" > 大保底</label>
-            <label for="hardCount" style="width:40%">連續大保(原):<br>(不含本次大保)</label>
-            <input type="number" id="hardCount" name="hardCount" min="0" value = 0 style="width:20%">
+            <label for="hardCount">連續大保(原):(不含本次大保)</label>
+            <input type="number" id="hardCount" name="hardCount" min="0" value = 0 >
         </div>
 
         <!-- 模擬按鈕 -->
@@ -60,7 +61,12 @@
             <label for="result">模擬結果:</label>
             <textarea id="result" name="result" rows="5" cols="30" readonly></textarea>
         </div>
-    </div>
+
+		<!-- 圖表 -->
+		<div class="section">
+			<canvas id="resultChart" width="400" height="200"></canvas>
+		</div>
+	</div>
     
         <script src="js/script.js"></script>
 </body>
