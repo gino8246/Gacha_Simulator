@@ -1,3 +1,4 @@
+/* 全局樣式 */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -6,7 +7,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh; /* 使用 min-height 代替 height，避免內容過多時壓縮 */
+    box-sizing: border-box;
 }
 
 .container {
@@ -15,13 +17,16 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 90%; /* 寬度設定為90% */
-    max-width: 800px; /* 最大寬度限制 */
+    max-width: 1200px; /* 最大寬度限制 */
+    margin-top: 20px; /* 增加上邊距，讓 h1 不會被壓住 */
+    box-sizing: border-box;
 }
 
 h1 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
+    margin-top: 0; /* 確保 h1 沒有額外的上邊距 */
 }
 
 .section {
@@ -63,4 +68,43 @@ textarea {
     border: 1px solid #ccc;
     resize: none;
     background-color: #f9f9f9;
+}
+
+/* 行動裝置樣式（寬度小於768px時適用） */
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column; /* 行動裝置上，讓元素垂直排列 */
+        align-items: stretch; /* 讓內容撐滿螢幕寬度 */
+        padding: 10px; /* 增加周圍的間距 */
+    }
+
+    .container {
+        width: 95%; /* 更窄的寬度，以適應行動裝置 */
+        padding: 15px; /* 減小填充，讓內容不至於溢出 */
+        max-width: none; /* 取消最大寬度限制 */
+        margin-top: 30px; /* 增加上邊距，避免被蓋住 */
+    }
+
+    h1 {
+        font-size: 1.5rem; /* 調整標題字體大小 */
+        margin-bottom: 15px;
+    }
+
+    .section {
+        flex-direction: column; /* 垂直排列 */
+        align-items: flex-start; /* 調整子元素的對齊方式 */
+    }
+
+    label {
+        margin-bottom: 5px; /* 行動裝置中label的間距 */
+    }
+
+    button {
+        font-size: 14px; /* 調整按鈕的字體大小 */
+        padding: 8px;
+    }
+
+    textarea {
+        font-size: 14px; /* 調整textarea的字體大小 */
+    }
 }
