@@ -20,23 +20,27 @@
 <!--             <label><input type="radio" name="poolType" value="ming"> 鳴</label> -->
         </div>
 
-        <!-- 選擇抽取類型 -->
-        <div class="section">
-            <p>選擇抽取類型:</p>
-            <label><input type="radio" name="drawType" value="character" checked> 角色</label>
-            <label><input type="radio" name="drawType" value="weapon"> 武器</label>
-        </div>
+<!--         選擇抽取類型 -->
+<!--         <div class="section"> -->
+<!--             <p>選擇抽取類型:</p> -->
+<!--             <label><input type="radio" name="drawType" value="character" checked> 角色</label> -->
+<!--             <label><input type="radio" name="drawType" value="weapon"> 武器</label> -->
+<!--         </div> -->
 
         <!-- 輸入已墊抽數 -->
         <div class="section">
-            <label for="currentPulls">已墊抽數:</label>
+            <label for="currentPulls">角色已墊抽數:</label>
             <input type="number" id="currentPulls" name="currentPulls" min="0" value = 0>
+            <label for="currentPulls_weapon">武器已墊抽數:</label>
+            <input type="number" id="currentPulls_weapon" name="currentPulls_weapon" min="0" value = 0>
         </div>
 
         <!-- 輸入目標五星數 -->
         <div class="section">
-            <label for="targetFiveStars">目標五星數:</label>
-            <input type="number" id="targetFiveStars" name="targetFiveStars" min="1" value = 1>
+            <label for="targetFiveStars">目標五星角色數:</label>
+            <input type="number" id="targetFiveStars" name="targetFiveStars" min="0" value = 1>            
+            <label for="targetFiveStars_weapon">目標五星武器數:</label>
+            <input type="number" id="targetFiveStars_weapon" name="targetFiveStars_weapon" min="0" value = 1>
         </div>
         
 
@@ -47,8 +51,9 @@
 
 
         <div class="section">
-            <label style="width:40%"><input type="checkbox" id="hardPity" name="hardPity" > 大保底</label>
-            <label for="hardCount">連續大保(原):(不含本次大保)</label>
+            <label style="width:40%"><input type="checkbox" id="hardPity" name="hardPity" > 角色大保底</label>
+            <label style="width:40%"><input type="checkbox" id="hardPity_weapon" name="hardPity_weapon" > 武器大保底</label>
+            <label for="hardCount">明光前小保次數</label>
             <input type="number" id="hardCount" name="hardCount" min="0" value = 0 >
         </div>
 

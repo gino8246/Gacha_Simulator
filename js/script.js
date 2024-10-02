@@ -9,9 +9,12 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 
 	// 取得表單的數據
 	const poolType = document.querySelector('input[name="poolType"]:checked')?.value || '未選擇';
-	const drawType = document.querySelector('input[name="drawType"]:checked')?.value || '未選擇';
+//	const drawType = document.querySelector('input[name="drawType"]:checked')?.value || '未選擇';
 	const currentPulls = parseInt(document.getElementById('currentPulls').value) || 0;
-	const targetFiveStars = parseInt(document.getElementById('targetFiveStars').value) || 1;
+	const currentPulls_weapon = parseInt(document.getElementById('currentPulls_weapon').value) || 0;
+
+	const targetFiveStars = parseInt(document.getElementById('targetFiveStars').value) || 0;
+	const targetFiveStars_weapon = parseInt(document.getElementById('targetFiveStars_weapon').value) || 0;
 	const simTimes = parseInt(document.getElementById('simTimes').value) || 1000000;
 
 	//小保歪次數
@@ -19,214 +22,201 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 	let hartOut = 0 ;	
 	
 	let cluster = new StatisticsCluster();
-	if (drawType == "character") {
-
-		switch (poolType) {
-			case "yuan":
-				for (let i = 0; i < simTimes; i++) {
-					let pullsTimes = currentPulls + 1;
-					let totalPull = 0;
-					let hardPity = document.getElementById('hardPity').checked ? true : false;
-					let hardCount = parseInt(document.getElementById('hardCount').value) || 0;
-					for (let fiveStars = 0; fiveStars < targetFiveStars;) {
+	switch (poolType) {
+		case "yuan":
+			for (let i = 0; i < simTimes; i++) {
+				let pullsTimes = currentPulls + 1;
+				let totalPull = 0;
+				let hardPity = document.getElementById('hardPity').checked ? true : false;
+				let hardCount = parseInt(document.getElementById('hardCount').value) || 0;
+				for (let fiveStars = 0; fiveStars < targetFiveStars;) {
+					totalPull = totalPull + 1;
+					let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+					for (; !calculateRandomOutcome(random);) {
+//						console.log("c"+pullsTimes);
+						pullsTimes = pullsTimes + 1;
 						totalPull = totalPull + 1;
-						let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
-						for (; !calculateRandomOutcome(random);) {
-							pullsTimes = pullsTimes + 1;
-							totalPull = totalPull + 1;
-							random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+						random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+					}
+					if (hardPity) {
+						fiveStars = fiveStars + 1;
+						hardPity = false;
+						hardCount = hardCount + 1;
+					} else {
+						if (hardCount < 2) {
+							if (calculateRandomOutcome(500)) {
+								fiveStars = fiveStars + 1;
+								//	小保中了不重置捕獲明光(待確認)
+								//	hardCount = 0;
+								hartIn = hartIn + 1;
+							} else {
+								hardPity = true;
+								hartOut = hartOut + 1;
+							}
 						}
-						if (hardPity) {
-							fiveStars = fiveStars + 1;
-							hardPity = false;
-							hardCount = hardCount + 1 ;
-						} else {
-							if (hardCount < 2) {
-								if (calculateRandomOutcome(500)) {
-									fiveStars = fiveStars + 1;
-									hardCount = 0;
-									hartIn = hartIn + 1 ;
-								} else {
-									hardPity = true;
-									hartOut = hartOut + 1 ;
-								}
-							}
-							else if (hardCount == 2) {
-								if (calculateRandomOutcome(750)) {
-									fiveStars = fiveStars + 1;
-									hardCount = 0;
-									hartIn = hartIn + 1 ;
-								} else {
-									hardPity = true;
-									hartOut = hartOut + 1 ;
-								}
-							}
-							else {
+						else if (hardCount == 2) {
+							if (calculateRandomOutcome(750)) {
 								fiveStars = fiveStars + 1;
 								hardCount = 0;
-								hartIn = hartIn + 1 ;
-							}
-						}
-						pullsTimes = 1;
-					}
-
-					cluster.add(totalPull);
-					totalPull = 0;
-					pullsTimes = currentPulls + 1;
-					hardPity = document.getElementById('hardPity').checked ? true : false;
-				}
-				break;
-			case "tie":
-				for (let i = 0; i < simTimes; i++) {
-					let pullsTimes = currentPulls + 1;
-					let totalPull = 0;
-					let hardPity = document.getElementById('hardPity').checked ? true : false;
-					for (let fiveStars = 0; fiveStars < targetFiveStars;) {
-						totalPull = totalPull + 1;
-						let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
-						for (; !calculateRandomOutcome(random);) {
-							pullsTimes = pullsTimes + 1;
-							totalPull = totalPull + 1;
-							random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
-						}
-						if (hardPity) {
-							fiveStars = fiveStars + 1;
-							hardPity = false;
-						} else {
-							if (calculateRandomOutcome(500)) {
-								fiveStars = fiveStars + 1;
-							} else {
-								if (calculateRandomOutcome(143))
-									fiveStars = fiveStars + 1;
-								else
-									hardPity = true;
-							}
-						}
-
-						pullsTimes = 1;
-					}
-
-					cluster.add(totalPull);
-					totalPull = 0;
-					pullsTimes = currentPulls + 1;
-					hardPity = document.getElementById('hardPity').checked ? true : false;
-				}
-				break;
-			case "jue":
-				for (let i = 0; i < simTimes; i++) {
-					let pullsTimes = currentPulls + 1;
-					let totalPull = 0;
-					let hardPity = document.getElementById('hardPity').checked ? true : false;
-					for (let fiveStars = 0; fiveStars < targetFiveStars;) {
-						totalPull = totalPull + 1;
-						let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
-						for (; !calculateRandomOutcome(random);) {
-							pullsTimes = pullsTimes + 1;
-							totalPull = totalPull + 1;
-							random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
-						}
-						if (hardPity) {
-							fiveStars = fiveStars + 1;
-							hardPity = false;
-						} else {
-							if (calculateRandomOutcome(500)) {
-								fiveStars = fiveStars + 1;
+								hartIn = hartIn + 1;
 							} else {
 								hardPity = true;
+								hartOut = hartOut + 1;
 							}
 						}
+						else {
+							fiveStars = fiveStars + 1;
+							hardCount = 0;
+							hartIn = hartIn + 1;
+						}
+					}
+					pullsTimes = 1;
+				}
 
-						pullsTimes = 1;
+				pullsTimes = currentPulls_weapon + 1;
+				hardPity = document.getElementById('hardPity_weapon').checked ? true : false;
+				for (let fiveStars = 0; fiveStars < targetFiveStars_weapon;) {
+					totalPull = totalPull + 1;
+					let random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777);
+					for (; !calculateRandomOutcome(random);) {
+//						console.log("w"+pullsTimes);
+						pullsTimes = pullsTimes + 1;
+						totalPull = totalPull + 1
+						random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777)
+					}
+					if (hardPity) {
+						fiveStars = fiveStars + 1;
+						hardPity = false;
+					} else {
+						if (calculateRandomOutcome(250)) {
+							hardPity = true;
+						} else {
+							if (calculateRandomOutcome(500))
+								fiveStars = fiveStars + 1;
+							else
+								hardPity = true;
+						}
+					}
+					pullsTimes = 1;
+				}
+				cluster.add(totalPull);
+			}
+			break;
+		case "tie":
+			for (let i = 0; i < simTimes; i++) {
+				let pullsTimes = currentPulls + 1;
+				let totalPull = 0;
+				let hardPity = document.getElementById('hardPity').checked ? true : false;
+				for (let fiveStars = 0; fiveStars < targetFiveStars;) {
+					totalPull = totalPull + 1;
+					let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+					for (; !calculateRandomOutcome(random);) {
+						pullsTimes = pullsTimes + 1;
+						totalPull = totalPull + 1;
+						random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+					}
+					if (hardPity) {
+						fiveStars = fiveStars + 1;
+						hardPity = false;
+					} else {
+						if (calculateRandomOutcome(500)) {
+							fiveStars = fiveStars + 1;
+						} else {
+							if (calculateRandomOutcome(143))
+								fiveStars = fiveStars + 1;
+							else
+								hardPity = true;
+						}
 					}
 
-					cluster.add(totalPull);
-					totalPull = 0;
-					pullsTimes = currentPulls + 1;
-					hardPity = document.getElementById('hardPity').checked ? true : false;
+					pullsTimes = 1;
 				}
-				break;
-			default:
-				break;
-		}
+				
+				pullsTimes = currentPulls_weapon + 1;
+				hardPity = document.getElementById('hardPity_weapon').checked ? true : false;
+				for (let fiveStars = 0; fiveStars < targetFiveStars_weapon;) {
+					totalPull = totalPull + 1;
+					let random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777);
+					for (; !calculateRandomOutcome(random);) {
+						pullsTimes = pullsTimes + 1;
+						totalPull = totalPull + 1
+						random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777)
+					}
+					if (hardPity) {
+						fiveStars = fiveStars + 1;
+						hardPity = false;
+					} else {
+						if (calculateRandomOutcome(250)) {
+							hardPity = true;
+						} else {
+							fiveStars = fiveStars + 1;
+						}
+					}
+					pullsTimes = 1;
+				}
+
+				cluster.add(totalPull);
+			}
+			break;
+		case "jue":
+			for (let i = 0; i < simTimes; i++) {
+				let pullsTimes = currentPulls + 1;
+				let totalPull = 0;
+				let hardPity = document.getElementById('hardPity').checked ? true : false;
+				for (let fiveStars = 0; fiveStars < targetFiveStars;) {
+					totalPull = totalPull + 1;
+					let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+					for (; !calculateRandomOutcome(random);) {
+						pullsTimes = pullsTimes + 1;
+						totalPull = totalPull + 1;
+						random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+					}
+					if (hardPity) {
+						fiveStars = fiveStars + 1;
+						hardPity = false;
+					} else {
+						if (calculateRandomOutcome(500)) {
+							fiveStars = fiveStars + 1;
+						} else {
+							hardPity = true;
+						}
+					}
+
+					pullsTimes = 1;
+				}
+				
+				pullsTimes = currentPulls_weapon + 1;
+				hardPity = document.getElementById('hardPity_weapon').checked ? true : false;
+				for (let fiveStars = 0; fiveStars < targetFiveStars_weapon;) {
+					totalPull = totalPull + 1;
+					let random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777);
+					for (; !calculateRandomOutcome(random);) {
+						pullsTimes = pullsTimes + 1;
+						totalPull = totalPull + 1
+						random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777)
+					}
+					if (hardPity) {
+						fiveStars = fiveStars + 1;
+						hardPity = false;
+					} else {
+						if (calculateRandomOutcome(250)) {
+							hardPity = true;
+						} else {
+							fiveStars = fiveStars + 1;
+						}
+					}
+					pullsTimes = 1;
+				}
+
+				cluster.add(totalPull);
+			}
+			break;
+		default:
+			break;
 	}
-	else if (drawType == "weapon") {
-		switch (poolType) {
-			case "yuan":
-				for (let i = 0; i < simTimes; i++) {
-					let pullsTimes = currentPulls + 1;
-					let totalPull = 0;
-					let hardPity = document.getElementById('hardPity').checked ? true : false;
-					for (let fiveStars = 0; fiveStars < targetFiveStars;) {
-						totalPull = totalPull + 1;
-						let random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777);
-						for (; !calculateRandomOutcome(random);) {
-							pullsTimes = pullsTimes + 1;
-							totalPull = totalPull + 1
-							random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777)
-						}
-						if (hardPity) {
-							fiveStars = fiveStars + 1;
-							hardPity = false;
-						} else {
-							if (calculateRandomOutcome(250)) {
-								hardPity = true;
-							} else {
-								if (calculateRandomOutcome(500))
-									fiveStars = fiveStars + 1;
-								else
-									hardPity = true;
-							}
-						}
-						pullsTimes = 1;
-					}
-
-					cluster.add(totalPull);
-					totalPull = 0;
-					pullsTimes = currentPulls + 1;
-					hardPity = document.getElementById('hardPity').checked ? true : false;
-				}
-				break;
-			case "tie":
-			case "jue":
-				for (let i = 0; i < simTimes; i++) {
-					let pullsTimes = currentPulls + 1;
-					let totalPull = 0;
-					let hardPity = document.getElementById('hardPity').checked ? true : false;
-					for (let fiveStars = 0; fiveStars < targetFiveStars;) {
-						totalPull = totalPull + 1;
-						let random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777);
-						for (; !calculateRandomOutcome(random);) {
-							pullsTimes = pullsTimes + 1;
-							totalPull = totalPull + 1
-							random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777)
-						}
-						if (hardPity) {
-							fiveStars = fiveStars + 1;
-							hardPity = false;
-						} else {
-							if (calculateRandomOutcome(250)) {
-								hardPity = true;
-							} else {
-								fiveStars = fiveStars + 1;
-							}
-						}
-						pullsTimes = 1;
-					}
-
-					cluster.add(totalPull);
-					totalPull = 0;
-					pullsTimes = currentPulls + 1;
-					hardPity = document.getElementById('hardPity').checked ? true : false;
-				}
-				break;
-			default:
-				break;
-		}
-	}
-
 	const average = cluster.getAverage();
-	const min = cluster.getMin();
-	const max = cluster.getMax();
+	const min = cluster.getMin() ;
+	const max = cluster.getMax() ;
 	const median = cluster.getMedian();
 
 	// 記錄結束時間
@@ -250,9 +240,9 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 最小值: ${min}
 最大值: ${max}
 中位數: ${median}
-小保命中(只計原角): ${percentage.toFixed(2)}%
 運行時間: ${elapsedTime} 毫秒
     `;
+//	小保命中: ${percentage.toFixed(2)}%
 
 	// 顯示結果到textarea
 	document.getElementById('result').value = resultText.trim();
