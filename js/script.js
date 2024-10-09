@@ -9,7 +9,6 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 
 	// 取得表單的數據
 	const poolType = document.querySelector('input[name="poolType"]:checked')?.value || '未選擇';
-//	const drawType = document.querySelector('input[name="drawType"]:checked')?.value || '未選擇';
 	const currentPulls = parseInt(document.getElementById('currentPulls').value) || 0;
 	const currentPulls_weapon = parseInt(document.getElementById('currentPulls_weapon').value) || 0;
 
@@ -18,9 +17,9 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 	const simTimes = parseInt(document.getElementById('simTimes').value) || 1000000;
 
 	//小保歪次數
-    let hartIn = 0 ;
-	let hartOut = 0 ;	
-	
+	let hartIn = 0;
+	let hartOut = 0;
+
 	let cluster = new StatisticsCluster();
 	switch (poolType) {
 		case "yuan":
@@ -33,7 +32,7 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 					totalPull = totalPull + 1;
 					let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
 					for (; !calculateRandomOutcome(random);) {
-//						console.log("c"+pullsTimes);
+						//						console.log("c"+pullsTimes);
 						pullsTimes = pullsTimes + 1;
 						totalPull = totalPull + 1;
 						random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
@@ -79,7 +78,7 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 					totalPull = totalPull + 1;
 					let random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777);
 					for (; !calculateRandomOutcome(random);) {
-//						console.log("w"+pullsTimes);
+						//						console.log("w"+pullsTimes);
 						pullsTimes = pullsTimes + 1;
 						totalPull = totalPull + 1
 						random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777)
@@ -131,7 +130,7 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 
 					pullsTimes = 1;
 				}
-				
+
 				pullsTimes = currentPulls_weapon + 1;
 				hardPity = document.getElementById('hardPity_weapon').checked ? true : false;
 				for (let fiveStars = 0; fiveStars < targetFiveStars_weapon;) {
@@ -184,7 +183,7 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 
 					pullsTimes = 1;
 				}
-				
+
 				pullsTimes = currentPulls_weapon + 1;
 				hardPity = document.getElementById('hardPity_weapon').checked ? true : false;
 				for (let fiveStars = 0; fiveStars < targetFiveStars_weapon;) {
@@ -215,8 +214,8 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 			break;
 	}
 	const average = cluster.getAverage();
-	const min = cluster.getMin() ;
-	const max = cluster.getMax() ;
+	const min = cluster.getMin();
+	const max = cluster.getMax();
 	const median = cluster.getMedian();
 
 	// 記錄結束時間
@@ -229,11 +228,10 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 	let total = hartIn + hartOut;
 	let percentage = 0;
 
-	// 確保 total 不為 0 以避免除以 0 的錯誤
 	if (total > 0) {
-	    percentage = (hartIn / total) * 100;
+		percentage = (hartIn / total) * 100;
 	}
-	
+
 	// 構建結果字符串
 	const resultText = `
 期望值: ${average}
@@ -242,70 +240,80 @@ document.getElementById('simulateButton').addEventListener('click', function() {
 中位數: ${median}
 運行時間: ${elapsedTime} 毫秒
     `;
-//	小保命中: ${percentage.toFixed(2)}%
+	//	小保命中: ${percentage.toFixed(2)}%
 
 	// 顯示結果到textarea
 	document.getElementById('result').value = resultText.trim();
-	
-	
+
+
 	// 收集數據用於圖表
 	const pullData = cluster.getData();
 	const pullCounts = {};
 
 	// 統計每個抽取次數出現的頻率
 	pullData.forEach(pull => {
-	    if (pullCounts[pull]) {
-	        pullCounts[pull]++;
-	    } else {
-	        pullCounts[pull] = 1;
-	    }
+		if (pullCounts[pull]) {
+			pullCounts[pull]++;
+		} else {
+			pullCounts[pull] = 1;
+		}
 	});
 
-	// 將統計結果轉換為圖表格式
+	const totalPulls = pullData.length; // 總抽取次數
+
+	// 將統計結果轉換為百分比並計算累計百分比
 	const labels = Object.keys(pullCounts);
-	const data = Object.values(pullCounts);
-	
+	const percentages = Object.values(pullCounts).map(count => (count / totalPulls) * 100);
+	const cumulativePercentages = [];
+
+	// 計算累計百分比
+	percentages.reduce((acc, curr) => {
+		const cumulative = acc + curr;
+		cumulativePercentages.push(cumulative.toFixed(2)); // 保留兩位小數
+		return cumulative;
+	}, 0);
+
 	// 創建圖表
 	const ctx = document.getElementById('resultChart').getContext('2d');
 
-	// 檢查是否已經有圖表存在，如果存在且是 Chart 實例則銷毀它
 	if (window.resultChart instanceof Chart) {
-	    window.resultChart.destroy();
+		window.resultChart.destroy();
 	}
 
 	// 新建圖表
 	window.resultChart = new Chart(ctx, {
-	    type: 'bar',
-	    data: {
-	        labels: labels,
-	        datasets: [{
-	            label: '抽取次數出現的次數',
-	            data: data,
-	            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-	            borderColor: 'rgba(54, 162, 235, 1)',
-	            borderWidth: 1
-	        }]
-	    },
-	    options: {
-	        scales: {
-	            x: {
-	                title: {
-	                    display: true,
-	                    text: '抽取次數'
-	                }
-	            },
-	            y: {
-	                title: {
-	                    display: true,
-	                    text: '出現次數'
-	                },
-	                beginAtZero: true
-	            }
-	        }
-	    }
+		type: 'bar',
+		data: {
+			labels: labels,
+			datasets: [{
+				label: '累計百分比 (%)',
+				data: cumulativePercentages,
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
+				borderWidth: 1
+			}]
+		},
+		options: {
+			scales: {
+				x: {
+					title: {
+						display: true,
+						text: '抽取次數'
+					}
+				},
+				y: {
+					title: {
+						display: true,
+						text: '累計百分比 (%)'
+					},
+					beginAtZero: true,
+					max: 100 // 確保 y 軸的範圍不會超過 100%
+				}
+			}
+		}
 	});
-	
-	
+
+
 });
 
 class StatisticsCluster {
@@ -317,7 +325,6 @@ class StatisticsCluster {
 		this.avg = 0;
 	}
 
-	// 添加整數到群集中
 	add(value) {
 		if (Number.isInteger(value)) {
 			if (value < this.min) this.min = value;
@@ -331,35 +338,59 @@ class StatisticsCluster {
 		}
 	}
 
-	// 計算平均值
 	getAverage() {
 		return this.avg;
 	}
 
-	// 獲取最小值
 	getMin() {
 		return this.min;
 	}
 
-	// 獲取最大值
 	getMax() {
 		return this.max;
 	}
-	
+
 	getData() {
-	    return this.data;
+		return this.data;
 	}
 
 	getMedian() {
 		if (this.data.length === 0) return null;
 
-		// 排序數據以計算中位數
 		const sortedData = [...this.data].sort((a, b) => a - b);
 		const midIndex = Math.floor(sortedData.length / 2);
 
-		// 如果數據長度為奇數，則返回中間值，否則返回中間兩個值的平均數
 		return sortedData.length % 2 !== 0
 			? sortedData[midIndex]
 			: (sortedData[midIndex - 1] + sortedData[midIndex]) / 2;
 	}
 }
+
+document.querySelectorAll('input[name="poolType"]').forEach(radio => {
+	radio.addEventListener('change', function() {
+		const selectedPoolType = document.querySelector('input[name="poolType"]:checked').value;
+		const hardCountSection = document.getElementById('hardCount');
+		const hardCountLabelSection = document.getElementById('hardCountLabel');
+
+		if (selectedPoolType === 'yuan') {
+			hardCountSection.style.display = 'inline';
+			hardCountLabelSection.style.display = 'inline';
+		} else {
+			hardCountSection.style.display = 'none';
+			hardCountLabelSection.style.display = 'none';
+		}
+	});
+});
+
+window.onload = function() {
+	const selectedPoolType = document.querySelector('input[name="poolType"]:checked').value;
+	const hardCountSection = document.getElementById('hardCount');
+	const hardCountLabelSection = document.getElementById('hardCountLabel');
+	if (selectedPoolType === 'yuan') {
+		hardCountSection.style.display = 'inline';
+		hardCountLabelSection.style.display = 'inline';
+	} else {
+		hardCountSection.style.display = 'none';
+		hardCountLabelSection.style.display = 'none';
+	}
+};
