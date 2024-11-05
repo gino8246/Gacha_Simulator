@@ -4,6 +4,11 @@ function calculateRandomOutcome(probability) {
 }
 
 document.getElementById("simulateButton").addEventListener("click", async function() {
+	gtag("event", "simulate", {
+	  poolType: document.querySelector('input[name="poolType"]:checked')?.value,
+	  targetFiveStars: parseInt(document.getElementById('targetFiveStars').value) || 0,
+	  targetFiveStars_weapon:parseInt(document.getElementById('targetFiveStars_weapon').value) || 0
+	});
 	document.getElementById("loadingOverlay").style.display = "flex";
 
 	try {
