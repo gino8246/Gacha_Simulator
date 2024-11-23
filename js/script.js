@@ -61,33 +61,21 @@ async function simulateGacha() {
 							if (hardPity) {
 								fiveStars = fiveStars + 1;
 								hardPity = false;
-								hardCount = hardCount + 1;
 							} else {
-								if (hardCount < 2) {
-									if (calculateRandomOutcome(500)) {
-										fiveStars = fiveStars + 1;
-										//	小保中了不重置捕獲明光(待確認)
-										//	hardCount = 0;
-										hartIn = hartIn + 1;
-									} else {
-										hardPity = true;
-										hartOut = hartOut + 1;
-									}
-								}
-								else if (hardCount == 2) {
-									if (calculateRandomOutcome(750)) {
-										fiveStars = fiveStars + 1;
-										hardCount = 0;
-										hartIn = hartIn + 1;
-									} else {
-										hardPity = true;
-										hartOut = hartOut + 1;
-									}
-								}
-								else {
+								if (hardCount == 3){
 									fiveStars = fiveStars + 1;
-									hardCount = 0;
 									hartIn = hartIn + 1;
+									hardCount = 1 ;
+								}
+								else if (calculateRandomOutcome(500)) {
+									fiveStars = fiveStars + 1;
+									hartIn = hartIn + 1;
+									if (hardCount>0)
+										hardCount = hardCount - 1 ;
+								} else {
+									hardPity = true;
+									hartOut = hartOut + 1;
+									hardCount = hardCount + 1 ;
 								}
 							}
 							pullsTimes = 1;

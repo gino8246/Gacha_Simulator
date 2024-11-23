@@ -89,6 +89,64 @@ textarea {
     text-align: center;
 }
 
+.tooltip {
+	position: relative;
+	display: inline-block;
+	font-size: 14px;
+	font-weight: bold;
+	color: #555;
+	background-color: #e0e0e0;
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	cursor: pointer;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	transition: background-color 0.3s ease;
+}
+
+.tooltip:hover {
+	background-color: #d0d0d0;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 160px;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 6px;
+	font-size: 12px;
+	position: absolute;
+	z-index: 1;
+	bottom: 140%; /* Position above the tooltip */
+	left: 50%;
+	transform: translateX(-50%);
+	opacity: 0;
+	transition: opacity 0.3s ease, transform 0.3s ease;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip .tooltiptext::after {
+	content: '';
+	position: absolute;
+	top: 100%; /* Arrow at the bottom of the tooltip */
+	left: 50%;
+	margin-left: -4px;
+	border-width: 4px;
+	border-style: solid;
+	border-color: #333 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
+	transform: translateX(-50%) translateY(-4px);
+	/* Slight floating effect */
+}
+
 /* 行動裝置樣式（寬度小於768px時適用） */
 @media screen and (max-width: 768px) {
     body {
