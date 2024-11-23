@@ -67,6 +67,18 @@ async function simulateGacha() {
 									hartIn = hartIn + 1;
 									hardCount = 1 ;
 								}
+								else if (hardCount == 2) {
+									if (calculateRandomOutcome(600)) {
+										fiveStars = fiveStars + 1;
+										hartIn = hartIn + 1;
+										hardCount = 1;
+									}
+									else {
+										hardPity = true;
+										hartOut = hartOut + 1;
+										hardCount = hardCount + 1 ;
+									}
+								}
 								else if (calculateRandomOutcome(500)) {
 									fiveStars = fiveStars + 1;
 									hartIn = hartIn + 1;
