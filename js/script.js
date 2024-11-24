@@ -24,6 +24,20 @@ document.getElementById("simulateButton").addEventListener("click", async functi
 async function simulateGacha() {
 
 	return new Promise((resolve) => {
+		if (parseInt(document.getElementById('currentPulls').value) < 0)
+			document.getElementById('currentPulls').value = 0;
+		if (parseInt(document.getElementById('currentPulls_weapon').value) < 0)
+			document.getElementById('currentPulls_weapon').value = 0;
+		if (parseInt(document.getElementById('targetFiveStars').value) < 0)
+			document.getElementById('targetFiveStars').value = 0;
+		if (parseInt(document.getElementById('targetFiveStars_weapon').value) < 0)
+			document.getElementById('targetFiveStars_weapon').value = 0;
+		if (parseInt(document.getElementById('hardCount').value) < 0)
+			document.getElementById('hardCount').value = 0;
+		if (parseInt(document.getElementById('hardCount').value) > 3)
+			document.getElementById('hardCount').value = 3;
+
+		
 		setTimeout(() => {
 			// 記錄開始時間
 			const startTime = new Date();
@@ -256,12 +270,13 @@ async function simulateGacha() {
 			// 構建結果字符串
 			const resultText = `
 期望值: ${average}
+小保命中: ${percentage.toFixed(2)}%
 最小值: ${min}
 最大值: ${max}
 中位數: ${median}
 運行時間: ${elapsedTime} 毫秒
     `;
-			//	小保命中: ${percentage.toFixed(2)}%
+			//	
 
 			// 顯示結果到textarea
 			document.getElementById('result').value = resultText.trim();
