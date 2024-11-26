@@ -223,11 +223,11 @@ async function simulateGacha() {
 						hardPity = document.getElementById('hardPity_weapon').checked ? true : false;
 						for (let fiveStars = 0; fiveStars < targetFiveStars_weapon;) {
 							totalPull = totalPull + 1;
-							let random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777);
+							let random = pullsTimes >= 80 ? 1000: (pullsTimes < 65 ? 10 : (70+(pullsTimes - 65) * 60));
 							for (; !calculateRandomOutcome(random);) {
 								pullsTimes = pullsTimes + 1;
 								totalPull = totalPull + 1
-								random = pullsTimes < 62 ? 7 : (pullsTimes < 74 ? (pullsTimes - 62) * 70 + 7 : (pullsTimes - 73) * 3.5 + 777)
+								random = pullsTimes >= 80 ? 1000: (pullsTimes < 65 ? 10 : (70+(pullsTimes - 65) * 60));
 							}
 							if (hardPity) {
 								fiveStars = fiveStars + 1;
@@ -270,13 +270,12 @@ async function simulateGacha() {
 			// 構建結果字符串
 			const resultText = `
 期望值: ${average}
-小保命中: ${percentage.toFixed(2)}%
+中位數: ${median}
 最小值: ${min}
 最大值: ${max}
-中位數: ${median}
 運行時間: ${elapsedTime} 毫秒
     `;
-			//	
+			//	小保命中: ${percentage.toFixed(2)}%
 
 			// 顯示結果到textarea
 			document.getElementById('result').value = resultText.trim();
