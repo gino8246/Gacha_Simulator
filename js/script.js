@@ -267,18 +267,8 @@ async function simulateGacha() {
 				percentage = (hartIn / total) * 100;
 			}
 
-			// 構建結果字符串
-			const resultText = `
-期望值: ${average}
-中位數: ${median}
-最小值: ${min}
-最大值: ${max}
-運行時間: ${elapsedTime} 毫秒
-    `;
-			//	小保命中: ${percentage.toFixed(2)}%
 
-			// 顯示結果到textarea
-			document.getElementById('result').value = resultText.trim();
+
 
 
 			// 收集數據用於圖表
@@ -301,12 +291,32 @@ async function simulateGacha() {
 			const percentages = Object.values(pullCounts).map(count => (count / totalPulls) * 100);
 			const cumulativePercentages = [];
 
+			let p10d = 0;
+			let p90d = 0;
 			// 計算累計百分比
 			percentages.reduce((acc, curr) => {
-				const cumulative = acc + curr;
+				const cumulative = acc + curr;				
+				if (p10d === 0 && cumulative >= 10)
+					p10d=labels[cumulativePercentages.length];
+				if (p90d === 0 && cumulative >= 90)
+					p90d=labels[cumulativePercentages.length];
 				cumulativePercentages.push(cumulative.toFixed(2)); // 保留兩位小數
+
 				return cumulative;
 			}, 0);
+			
+			
+			// 構建結果字符串
+			const resultText = `
+期望值: ${average}
+10%達成率: ${p10d}
+50%中位數: ${median}
+90%達成率: ${p90d}
+運行時間: ${elapsedTime} 毫秒`;
+			//	小保命中: ${percentage.toFixed(2)}%
+
+			// 顯示結果到textarea
+			document.getElementById('result').value = resultText.trim();
 
 			// 創建圖表
 			const ctx = document.getElementById('resultChart').getContext('2d');
