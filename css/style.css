@@ -147,6 +147,10 @@ textarea {
 	/* Slight floating effect */
 }
 
+.hardPityLabel{
+	width:30%
+}
+
 /* 行動裝置樣式（寬度小於768px時適用） */
 @media screen and (max-width: 768px) {
     body {
@@ -182,6 +186,9 @@ textarea {
     }
 
     textarea {
-        font-size: 14px; 
-    }
+        font-size: 14px;
+	}
+	.hardPityLabel {
+		width: 80%
+	}
 }

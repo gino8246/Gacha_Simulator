@@ -53,8 +53,8 @@
 
 
         <div class="section">
-            <label style="width:30%"><input type="checkbox" id="hardPity" name="hardPity" > 角色大保底</label>
-            <label style="width:30%"><input type="checkbox" id="hardPity_weapon" name="hardPity_weapon" > 武器大保底</label> 
+            <label class='hardPityLabel' ><input type="checkbox" id="hardPity" name="hardPity" > 角色大保底</label>
+            <label class='hardPityLabel' ><input type="checkbox" id="hardPity_weapon" name="hardPity_weapon" > 武器大保底</label> 
             <label id="hardCountLabel" for="hardCount"> 
             <a href="https://www.bilibili.com/video/BV13XBiYZErT" class="tooltip"
 				target="_blank">? <span class="tooltiptext">明光機制模型使用B站up"一棵平衡树"的推論計算。有做些微調整使結果更接近大數據。</span>
@@ -71,7 +71,8 @@
         <!-- 模擬結果 -->
         <div class="section">
             <label for="result">模擬結果:</label>
-            <textarea id="result" name="result" rows="5" cols="30" readonly></textarea>
+<!--             <textarea id="result" name="result" rows="5" cols="30" readonly></textarea> -->
+			<div id='result'></div>
         </div>
 
 		<!-- 圖表 -->

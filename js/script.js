@@ -306,17 +306,21 @@ async function simulateGacha() {
 			}, 0);
 			
 			
-			// 構建結果字符串
-			const resultText = `
-期望值: ${average}
-10%達成率: ${p10d}
-50%中位數: ${median}
-90%達成率: ${p90d}
-運行時間: ${elapsedTime} 毫秒`;
+			const resultDiv = document.getElementById('result');
+			resultDiv.style.backgroundColor = '#e6f7ff';
+			resultDiv.style.padding = '10px';
+			resultDiv.style.borderRadius = '5px';
+			resultDiv.innerHTML = `
+			        <p>期望值: ${average}</p>
+			        <p>10%達成率: ${p10d}</p>
+			        <p>50%中位數: ${median}</p>
+			        <p>90%達成率: ${p90d}</p>
+			        <p>運行時間: ${elapsedTime} 毫秒</p>
+			    `;
 			//	小保命中: ${percentage.toFixed(2)}%
 
 			// 顯示結果到textarea
-			document.getElementById('result').value = resultText.trim();
+//			document.getElementById('result').value = resultText.trim();
 
 			// 創建圖表
 			const ctx = document.getElementById('resultChart').getContext('2d');
