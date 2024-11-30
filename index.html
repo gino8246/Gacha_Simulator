@@ -14,7 +14,7 @@
 
 <meta charset="UTF-8">
 <title>米池計算機</title>
-    <link rel="stylesheet" href="css/style.css?v=20241130">
+    <link rel="stylesheet" href="css/style.css?v=20241130_2">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -22,15 +22,20 @@
 	<div class="container">
         <h1>米池計算機</h1>
 
-        <!-- 選擇池類型 -->
-        <div class="section">
-            <p>選擇池類型:</p>
-            <label><input type="radio" name="poolType" value="yuan" checked> 原</label>
-            <label><input type="radio" name="poolType" value="tie"> 鐵</label>
-            <label><input type="radio" name="poolType" value="jue"> 絕</label>
-        </div>
-        
-        <!-- 輸入目標五星數 -->
+		<div class="section">
+			<p>選擇池類型:</p>
+			<div class="button-group">
+				<label class="radio-button"> <input type="radio"
+					name="poolType" value="yuan" checked> <span>原</span>
+				</label> <label class="radio-button"> <input type="radio"
+					name="poolType" value="tie"> <span>鐵</span>
+				</label> <label class="radio-button"> <input type="radio"
+					name="poolType" value="jue"> <span>絕</span>
+				</label>
+			</div>
+		</div>
+
+		<!-- 輸入目標五星數 -->
         <div class="section">
             <label for="targetFiveStars">目標五星角色數:</label>
             <input type="number" id="targetFiveStars" name="targetFiveStars" min="0" value = 1>            
@@ -81,7 +86,7 @@
 		</div>
 	</div>
 
-	<script src="js/script.js?v=20241130"></script>
+	<script src="js/script.js?v=20241130_2"></script>
 
 	<div id="loadingOverlay" class="overlay" style="display: none;">
 		<div class="loading-content">

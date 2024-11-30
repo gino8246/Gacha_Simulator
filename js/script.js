@@ -331,35 +331,60 @@ async function simulateGacha() {
 
 			// 新建圖表
 			window.resultChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: labels,
-					datasets: [{
-						label: '累計百分比 (%)',
-						data: cumulativePercentages,
-						backgroundColor: 'rgba(54, 162, 235, 0.2)',
-						borderColor: 'rgba(54, 162, 235, 1)',
-						borderWidth: 1
-					}]
-				},
-				options: {
-					scales: {
-						x: {
-							title: {
-								display: true,
-								text: '抽取次數'
-							}
-						},
-						y: {
-							title: {
-								display: true,
-								text: '累計百分比 (%)'
-							},
-							beginAtZero: true,
-							max: 100 // 確保 y 軸的範圍不會超過 100%
-						}
-					}
-				}
+			    type: 'line', // 折線圖類型
+			    data: {
+			        labels: labels, // x 軸標籤
+			        datasets: [{
+			            label: '累計百分比 (%)',
+			            data: cumulativePercentages, // 數據
+			            backgroundColor: 'rgba(54, 162, 235, 0.2)', 
+			            borderColor: 'rgba(54, 162, 235, 1)', 
+			            borderWidth: 2, 
+			            fill: true, 
+			            pointRadius: 0
+			        }]
+			    },
+			    options: {
+			        interaction: {
+			            mode: 'nearest',
+			            axis: 'x', 
+			            intersect: false 
+			        },
+			        plugins: {
+			            tooltip: {
+			                callbacks: {
+			                    label: function(context) {
+			                        return `${context.dataset.label}: ${context.raw}%`;
+			                    }
+			                }
+			            }
+			        },
+			        scales: {
+			            x: {
+			                title: {
+			                    display: true,
+			                    text: '抽取次數' 
+			                }
+			            },
+			            y: {
+			                title: {
+			                    display: true,
+			                    text: '累計百分比 (%)' 
+			                },
+			                beginAtZero: true, 
+			                max: 100 
+			            }
+			        },
+			        elements: {
+			            line: {
+			                tension: 0.4 
+			            },
+			            point: {
+			                hoverRadius: 8, // 增大懸停時數據點的半徑
+			                hitRadius: 10 // 增大數據點可被懸停的區域
+			            }
+			        }
+			    }
 			});
 
 			resolve();
