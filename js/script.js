@@ -470,3 +470,22 @@ window.onload = function() {
 		hardCountLabelSection.style.display = 'none';
 	}
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tooltips = document.querySelectorAll('.tooltip');
+
+    tooltips.forEach(tooltip => {
+        tooltip.addEventListener('click', (e) => {
+            //e.preventDefault();
+            // Toggle active class on click
+            tooltip.classList.toggle('active');
+        });
+
+        // Close tooltip if clicked outside
+        document.addEventListener('click', (event) => {
+            if (!tooltip.contains(event.target)) {
+                tooltip.classList.remove('active');
+            }
+        });
+    });
+});

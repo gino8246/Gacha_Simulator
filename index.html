@@ -14,7 +14,7 @@
 
 <meta charset="UTF-8">
 <title>米池計算機</title>
-    <link rel="stylesheet" href="css/style.css?v=20241130_2">
+    <link rel="stylesheet" href="css/style.css?v=20241203">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -37,17 +37,22 @@
 
 		<!-- 輸入目標五星數 -->
         <div class="section">
-            <label for="targetFiveStars">目標五星角色數:</label>
+        	<label>目標五星數：</label>
+            <label for="targetFiveStars">角色</label>
             <input type="number" id="targetFiveStars" name="targetFiveStars" min="0" value = 1>            
-            <label for="targetFiveStars_weapon">目標五星武器數:</label>
+            <label for="targetFiveStars_weapon">武器</label>
             <input type="number" id="targetFiveStars_weapon" name="targetFiveStars_weapon" min="0" value = 1>
         </div>
 
         <!-- 輸入已墊抽數 -->
         <div class="section">
-            <label for="currentPulls">角色已墊抽數:</label>
+        	<label>已墊抽數<a class="tooltip"
+				target="_blank">? <span class="tooltiptext">距離上一次抽出5星後已經抽了多少抽。</span>
+			</a>：</label>
+                    
+            <label for="currentPulls">角色</label>
             <input type="number" id="currentPulls" name="currentPulls" min="0" value = 0>
-            <label for="currentPulls_weapon">武器已墊抽數:</label>
+            <label for="currentPulls_weapon">武器</label>
             <input type="number" id="currentPulls_weapon" name="currentPulls_weapon" min="0" value = 0>
         </div>
         
@@ -58,14 +63,17 @@
 
 
         <div class="section">
-            <label class='hardPityLabel' ><input type="checkbox" id="hardPity" name="hardPity" > 角色大保底</label>
-            <label class='hardPityLabel' ><input type="checkbox" id="hardPity_weapon" name="hardPity_weapon" > 武器大保底</label> 
+        	<label>卡池已大保底<a class="tooltip" target="_blank">? <span class="tooltiptext">卡池上一次抽出的5星是非UP角色/武器。</span></a>：</label>
+            <label class='hardPityLabel' ><input type="checkbox" id="hardPity" name="hardPity" > 角色
+            </label>
+            <label class='hardPityLabel' ><input type="checkbox" id="hardPity_weapon" name="hardPity_weapon" > 武器</label> 
             <label id="hardCountLabel" for="hardCount"> 
+            明光計數器
             <a href="https://www.bilibili.com/video/BV13XBiYZErT" class="tooltip"
 				target="_blank">? <span class="tooltiptext">明光機制模型使用B站up"一棵平衡树"的推論計算。有做些微調整使結果更接近大數據。</span>
-			</a>明光計數器
-			</label> 
+			</a>
 			<input type="number" id="hardCount" name="hardCount" min="0" max="3" value = 1 >
+			</label> 
         </div>
 
         <!-- 模擬按鈕 -->
@@ -86,7 +94,7 @@
 		</div>
 	</div>
 
-	<script src="js/script.js?v=20241130_2"></script>
+	<script src="js/script.js?v=20241203"></script>
 
 	<div id="loadingOverlay" class="overlay" style="display: none;">
 		<div class="loading-content">
