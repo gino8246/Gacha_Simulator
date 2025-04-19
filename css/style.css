@@ -158,7 +158,7 @@ textarea {
     align-items: center;
     justify-content: center;
     width: 60px; 
-    height: 35px;
+    height: 60px;
     border: 1px solid #bbb; 
     border-radius: 4px;
     cursor: pointer; 
@@ -238,4 +238,10 @@ textarea {
     textarea {
         font-size: 14px;
 	}
+}
+
+.button-group img {
+  width: 60px;
+  height: auto;
+  vertical-align: middle;
 }

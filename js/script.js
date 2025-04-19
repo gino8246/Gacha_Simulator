@@ -448,13 +448,22 @@ document.querySelectorAll('input[name="poolType"]').forEach(radio => {
 		const hardCountSection = document.getElementById('hardCount');
 		const hardCountLabelSection = document.getElementById('hardCountLabel');
 
+		const loadingImg = document.querySelector('#loadingOverlay img');
+		
 		if (selectedPoolType === 'yuan') {
 			hardCountSection.style.display = 'inline';
 			hardCountLabelSection.style.display = 'inline';
-		} else {
+			loadingImg.src = `image/gi_load.gif`;
+		} else if (selectedPoolType === 'tie') {
 			hardCountSection.style.display = 'none';
 			hardCountLabelSection.style.display = 'none';
+			loadingImg.src = `image/37.gif`;
+		} else if (selectedPoolType === 'jue') {
+			hardCountSection.style.display = 'none';
+			hardCountLabelSection.style.display = 'none';
+			loadingImg.src = `image/zzz_load.gif`;
 		}
+		
 	});
 });
 
@@ -469,6 +478,25 @@ window.onload = function() {
 		hardCountSection.style.display = 'none';
 		hardCountLabelSection.style.display = 'none';
 	}
+	
+	
+	// TODO 翻譯功能未完成
+//	const container = document.querySelector('.container');
+//	const userLanguage = 'en';
+//	//const userLanguage = navigator.language || navigator.userLanguage;
+//	console.log(userLanguage) ;
+//	if (container) {
+//	    const htmlContent = container.innerHTML;
+//	    
+//	    if (userLanguage.startsWith('ja')) {
+//	        container.innerHTML = translateHtml(htmlContent, 'japanese');
+//	    } else if (userLanguage.startsWith('zh') || ['zh-CN', 'zh-TW', 'zh-HK', 'zh-MO', 'zh-SG'].includes(userLanguage)) {
+//	        // 中文語系維持繁中，無需翻譯
+//	        return;
+//	    } else {
+//	        container.innerHTML = translateHtml(htmlContent, 'english');
+//	    }
+//	}
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -489,3 +517,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+function translateHtml(html, language) {
+    let translatedHtml = html;
+    let translationMapToUse = language === 'japanese' ? japaneseTranslationMap : translationMap;
+    for (const [chinese, translated] of Object.entries(translationMapToUse)) {
+        // 使用正則表達式進行全局替換，確保所有出現的中文都被替換
+        const regex = new RegExp(chinese, 'g');
+        translatedHtml = translatedHtml.replace(regex, translated);
+    }
+    return translatedHtml;
+}
+
+// 獲取 class="container" 的 innerHTML 並進行翻譯
+function translateContainer(language) {
+    const container = document.querySelector('.container');
+    if (container) {
+        container.innerHTML = translateHtml(container.innerHTML, language);
+    }
+}
+
+
+
+const translationMap = {
+    "米池計算機": "MHY Gacha Calculator",
+    "選擇池類型": "Gacha Pool Types",
+    "原": "Genshin",
+    "鐵": "HSR",
+    "絕": "ZZZ",
+    "目標五星數": "Target Five Stars",
+    "角色": "Character",
+    "武器": "Weapon",
+    "已墊抽數": "Current Pulls",
+    "模擬次數": "Simulation Times",
+    "卡池已大保底": "Pool Hard Pity",
+	"模擬結果": "Simulation Result",
+    "模擬": "Simulate",
+};
+
+
+const japaneseTranslationMap = {
+    "米池計算機": "ミガチャ計算機",
+    "選擇池類型": "ガチャの種類",
+    "原": "原神",
+    "鐵": "崩スタ",
+    "絕": "ZZZ",
+    "目標五星數": "目標の五星数:",
+    "角色": "キャラクター",
+    "武器": "武器",
+    "已墊抽數": "現在の抽数",
+    "模擬次數": "シミュレーション回数",
+    "卡池已大保底": "プールハードピティ",
+	"模擬結果": "シミュレーション結果",
+    "模擬": "シミュレート",
+	"明光計數器": "掴みし明光",
+};
