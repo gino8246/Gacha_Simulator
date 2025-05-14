@@ -4,9 +4,6 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh; 
     box-sizing: border-box;
 }
@@ -20,6 +17,7 @@ body {
     max-width: 1200px; 
     margin-top: 20px; 
     box-sizing: border-box;
+    margin: 20px auto;
 }
 
 h1 {

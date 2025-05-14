@@ -13,14 +13,14 @@
 </script>
 
 <meta charset="UTF-8">
-<title>米池計算機</title>
-    <link rel="stylesheet" href="css/style.css?v=20241203">
+<title>米池計算器</title>
+    <link rel="stylesheet" href="css/style.css?v=20250514">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 	<div class="container">
-        <h1>米池計算機</h1>
+        <h1>米池計算器</h1>
 
 		<div class="section">
 			<p>選擇池類型:</p>
@@ -75,8 +75,37 @@
 			<input type="number" id="hardCount" name="hardCount" min="0" max="3" value = 1 >
 			</label> 
         </div>
+        
+        <div style='background-color: rgb(230, 247, 255);'>
+        <div class="section">
+        	<div>
+        	<label for="draw4Star"><input type="checkbox" id="draw4Star" name="draw4Star" >
+        	墊池抽四星(角色)</label>
+        	<a class="tooltip" target="_blank">? <span class="tooltiptext">計算在抽出指定數量的PU五星角色前。抽到指定數量的PU四星角色的成功率。
+        	</span></a>
+        	</div>
 
-        <!-- 模擬按鈕 -->
+        </div>
+
+		<div class='section form4stars'>
+			<a style="color: #666; font-size: 0.85rem; font-style: italic;">是否墊池沒有絕對對錯，只有能否接受風險。墊池抽四星有歐有非，抽卡前請詳閱公開說明書(並沒有)。</a>
+			<br>
+			<label for="target4Stars">目標四星數：</label> <input type="number"
+				id="target4Stars" name="target4Stars" min="0" value=1> 
+				<div> 
+				<label
+				for="current4Pulls">距離上個四星已抽</label> <input type="number"
+				id="current4Pulls" name="current4Pulls" min="0" value=0> <input type="checkbox"
+				id="hardPity4" name="hardPity4"><label
+				class='hardPity4Label'>上個四星是PU角色(不論是否是目標角色)
+				</div>
+			</label>
+		</div>
+		</div>
+
+
+
+		<!-- 模擬按鈕 -->
         <div class="section">
             <button id="simulateButton">模擬</button>
         </div>
@@ -94,7 +123,7 @@
 		</div>
 	</div>
 
-	<script src="js/script.js?v=20241203"></script>
+	<script src="js/script.js?v=20250514"></script>
 
 	<div id="loadingOverlay" class="overlay" style="display: none;">
 		<div class="loading-content">
@@ -103,4 +132,10 @@
 		</div>
 	</div>
 </body>
+<footer style="background-color: #f5f5f5; padding: 20px; text-align: center; font-size: 0.75rem; color: #666;">
+  <p>非營利開源專案，如發現BUG或有改進意見，歡迎至巴哈姆特論壇搜尋"米池計算器"向作者回報。</p>
+  <p>
+    <a href="https://github.com/gino8246/Gacha_Simulator" target="_blank">GitHub 專案</a>
+  </p>
+</footer>
 </html>

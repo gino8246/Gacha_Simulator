@@ -50,10 +50,17 @@ async function simulateGacha() {
 			const targetFiveStars = parseInt(document.getElementById('targetFiveStars').value) || 0;
 			const targetFiveStars_weapon = parseInt(document.getElementById('targetFiveStars_weapon').value) || 0;
 			const simTimes = parseInt(document.getElementById('simTimes').value) || 1000000;
+			
+			const target4Stars = parseInt(document.getElementById('target4Stars').value) || 0;
+			const current4Pulls = parseInt(document.getElementById('current4Pulls').value) || 0;
 
 			//小保歪次數
 			let hartIn = 0;
 			let hartOut = 0;
+			
+			//成功墊抽
+			const draw4Star = document.getElementById('draw4Star').checked ? true : false;
+			let pull4success = 0 ;
 
 			let cluster = new StatisticsCluster();
 			switch (poolType) {
@@ -63,6 +70,10 @@ async function simulateGacha() {
 						let totalPull = 0;
 						let hardPity = document.getElementById('hardPity').checked ? true : false;
 						let hardCount = parseInt(document.getElementById('hardCount').value) || 0;
+						
+						let pulls4Times = current4Pulls;
+						let star4 = 0 ;
+						let hard4Pity = document.getElementById('hardPity4').checked ? true : false;
 						for (let fiveStars = 0; fiveStars < targetFiveStars;) {
 							totalPull = totalPull + 1;
 							let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
@@ -71,6 +82,36 @@ async function simulateGacha() {
 								pullsTimes = pullsTimes + 1;
 								totalPull = totalPull + 1;
 								random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+								
+								// 沒中五星的情況再計算四星
+								if (draw4Star && star4 <target4Stars) {
+									pulls4Times = pulls4Times + 1;
+									let random4 = pulls4Times <= 8 ? 51 
+										: (pulls4Times === 9  ? 562 : 1000);
+									if ( calculateRandomOutcome(random4) ){
+										pulls4Times=0;
+										if (hard4Pity){
+											if (calculateRandomOutcome(334)) {
+												star4 = star4 + 1 ;
+											}
+											hard4Pity = false ;
+										}
+										else {
+											if (calculateRandomOutcome(500)) {
+												if (calculateRandomOutcome(334)) {
+													star4 = star4 + 1 ;
+												}
+											}
+											else {
+												hard4Pity = true ;
+											}
+										}
+										
+										if (star4 >= target4Stars) {
+											pull4success = pull4success + 1;
+										}
+									}									
+								}
 							}
 							if (hardPity) {
 								fiveStars = fiveStars + 1;
@@ -141,6 +182,10 @@ async function simulateGacha() {
 						let pullsTimes = currentPulls + 1;
 						let totalPull = 0;
 						let hardPity = document.getElementById('hardPity').checked ? true : false;
+						
+						let pulls4Times = current4Pulls;
+						let star4 = 0 ;
+						let hard4Pity = document.getElementById('hardPity4').checked ? true : false;
 						for (let fiveStars = 0; fiveStars < targetFiveStars;) {
 							totalPull = totalPull + 1;
 							let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
@@ -148,6 +193,36 @@ async function simulateGacha() {
 								pullsTimes = pullsTimes + 1;
 								totalPull = totalPull + 1;
 								random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+								
+								// 沒中五星的情況再計算四星
+								if (draw4Star && star4 < target4Stars) {
+									pulls4Times = pulls4Times + 1;
+									let random4 = pulls4Times <= 8 ? 51
+										: (pulls4Times === 9 ? 562 : 1000);
+									if (calculateRandomOutcome(random4)) {
+										pulls4Times = 0;
+										if (hard4Pity) {
+											if (calculateRandomOutcome(334)) {
+												star4 = star4 + 1;
+											}
+											hard4Pity = false;
+										}
+										else {
+											if (calculateRandomOutcome(500)) {
+												if (calculateRandomOutcome(334)) {
+													star4 = star4 + 1;
+												}
+											}
+											else {
+												hard4Pity = true;
+											}
+										}
+
+										if (star4 >= target4Stars) {
+											pull4success = pull4success + 1;
+										}
+									}
+								}
 							}
 							if (hardPity) {
 								fiveStars = fiveStars + 1;
@@ -197,6 +272,10 @@ async function simulateGacha() {
 						let pullsTimes = currentPulls + 1;
 						let totalPull = 0;
 						let hardPity = document.getElementById('hardPity').checked ? true : false;
+						
+						let pulls4Times = current4Pulls;
+						let star4 = 0 ;
+						let hard4Pity = document.getElementById('hardPity4').checked ? true : false;
 						for (let fiveStars = 0; fiveStars < targetFiveStars;) {
 							totalPull = totalPull + 1;
 							let random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
@@ -204,6 +283,34 @@ async function simulateGacha() {
 								pullsTimes = pullsTimes + 1;
 								totalPull = totalPull + 1;
 								random = pullsTimes < 74 ? 6 : (pullsTimes - 73) * 60 + 6;
+								
+								if (draw4Star && star4 < target4Stars) {
+									pulls4Times = pulls4Times + 1;
+									let random4 = pulls4Times <= 9 ? 94	: 1000;
+									if (calculateRandomOutcome(random4)) {
+										pulls4Times = 0;
+										if (hard4Pity) {
+											if (calculateRandomOutcome(500)) {
+												star4 = star4 + 1;
+											}
+											hard4Pity = false;
+										}
+										else {
+											if (calculateRandomOutcome(500)) {
+												if (calculateRandomOutcome(500)) {
+													star4 = star4 + 1;
+												}
+											}
+											else {
+												hard4Pity = true;
+											}
+										}
+
+										if (star4 >= target4Stars) {
+											pull4success = pull4success + 1;
+										}
+									}
+								}
 							}
 							if (hardPity) {
 								fiveStars = fiveStars + 1;
@@ -217,6 +324,10 @@ async function simulateGacha() {
 							}
 
 							pullsTimes = 1;
+							
+							// zzz較為特別，S級會吞A級的保底
+							pulls4Times = 0 ;
+
 						}
 
 						pullsTimes = currentPulls_weapon + 1;
@@ -306,6 +417,13 @@ async function simulateGacha() {
 			}, 0);
 			
 			
+			const isHardPityEnabled = document.getElementById('draw4Star').checked;
+			let extraLine = '';
+			if (isHardPityEnabled) {
+			    const successRate = ((pull4success / simTimes) * 100).toFixed(2);
+			    extraLine = `<p>4星達標成功率: ${successRate}%</p>`;
+			}
+			
 			const resultDiv = document.getElementById('result');
 			resultDiv.style.backgroundColor = '#e6f7ff';
 			resultDiv.style.padding = '10px';
@@ -315,8 +433,13 @@ async function simulateGacha() {
 			        <p>10%達成率: ${p10d}</p>
 			        <p>50%中位數: ${median}</p>
 			        <p>90%達成率: ${p90d}</p>
+					${extraLine}
 			        <p>運行時間: ${elapsedTime} 毫秒</p>
 			    `;
+				
+			if (document.getElementById('hardPity4').checked ? true : false) {
+				resultDiv
+			}
 			//	小保命中: ${percentage.toFixed(2)}%
 
 			// 顯示結果到textarea
@@ -499,7 +622,7 @@ window.onload = function() {
 //	}
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
     const tooltips = document.querySelectorAll('.tooltip');
 
     tooltips.forEach(tooltip => {
@@ -516,6 +639,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const draw4StarCheckbox = document.getElementById('draw4Star');
+    const form4StarsSection = document.querySelector('.form4stars');
+
+    function toggleForm4Stars() {
+        form4StarsSection.style.display = draw4StarCheckbox.checked ? 'block' : 'none';
+    }
+
+    toggleForm4Stars();
+    draw4StarCheckbox.addEventListener('change', toggleForm4Stars);
 });
 
 function translateHtml(html, language) {
@@ -541,16 +676,19 @@ function translateContainer(language) {
 
 const translationMap = {
     "米池計算機": "MHY Gacha Calculator",
-    "選擇池類型": "Gacha Pool Types",
+    "選擇池類型": "Select Pool Type",
     "原": "Genshin",
     "鐵": "HSR",
     "絕": "ZZZ",
-    "目標五星數": "Target Five Stars",
+    "目標五星數": "Target five-star number",
+	"卡池上一次抽出的5星是非UP角色/武器。":"The last 5-star item drawn from the pool was a non-UP character/weapon.",
+	"距離上一次抽出5星後已經抽了多少抽。":"How many draws have been made since the last time you drew 5 stars?",
     "角色": "Character",
     "武器": "Weapon",
-    "已墊抽數": "Current Pulls",
+    "已墊抽數": "Number of draws",
     "模擬次數": "Simulation Times",
-    "卡池已大保底": "Pool Hard Pity",
+    "卡池已大保底": "The card pool has a guarantee",
+	"明光計數器": "Bright light counter",
 	"模擬結果": "Simulation Result",
     "模擬": "Simulate",
 };
