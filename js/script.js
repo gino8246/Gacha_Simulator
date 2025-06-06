@@ -437,9 +437,6 @@ async function simulateGacha() {
 			        <p>運行時間: ${elapsedTime} 毫秒</p>
 			    `;
 				
-			if (document.getElementById('hardPity4').checked ? true : false) {
-				resultDiv
-			}
 			//	小保命中: ${percentage.toFixed(2)}%
 
 			// 顯示結果到textarea
