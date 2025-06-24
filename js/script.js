@@ -584,7 +584,7 @@ document.querySelectorAll('input[name="poolType"]').forEach(radio => {
 		} else if (selectedPoolType === 'jue') {
 			hardCountSection.style.display = 'none';
 			hardCountLabelSection.style.display = 'none';
-			loadingImg.src = `image/zzz_load.gif`;
+			loadingImg.src = `image/zzz_fufueat.gif`;
 		}
 		
 	});
