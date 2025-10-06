@@ -577,7 +577,7 @@ document.querySelectorAll('input[name="poolType"]').forEach(radio => {
 		} else if (selectedPoolType === 'tie') {
 			hardCountSection.style.display = 'none';
 			hardCountLabelSection.style.display = 'none';
-			loadingImg.src = `image/37.gif`;
+			loadingImg.src = `image/37d.gif`;
 		} else if (selectedPoolType === 'jue') {
 			hardCountSection.style.display = 'none';
 			hardCountLabelSection.style.display = 'none';
